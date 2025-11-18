@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Store - Download Custom Stuff</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary-bg: #fafafa;
+      --primary-tx: #222;
+      --secondary-bg: #fff;
+      --accent: #4f8cff;
+      --card-bg: #f0f0f0;
+      --shadow: 0 4px 24px rgba(60,60,80,0.08);
+      --border: #e0e0e0;
+      --hover: #f4f7ff;
+      --dl-btn-bg: #4f8cff;
+      --dl-btn-tx: #fff;
+      --dl-btn-hover: #2560c2;
+      --switch-bg: #4f8cff;
+      --switch-tx: #fff;
+      --anim: 350ms cubic-bezier(.5, 0, .25, 1);
+    }
+    body[data-theme='dark'] {
+      --primary-bg: #191923;
+      --primary-tx: #f6f6f6;
+      --secondary-bg: #232333;
+      --card-bg: #202029;
+      --shadow: 0 4px 24px rgba(20,20,30,0.18);
+      --border: #22223c;
+      --hover: #23233b;
+      --dl-btn-bg: #2828b0;
+      --dl-btn-tx: #fff;
+      --dl-btn-hover: #4f8cff;
+      --switch-bg: #6f73d2;
+      --switch-tx: #fff;
+    }
+    html, body {
+      padding: 0; margin: 0;
+      min-height: 100vh;
+      background: var(--primary-bg);
+      color: var(--primary-tx);
+      font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+      transition: background var(--anim), color var(--anim);
+    }
+    .container {
+      max-width: 640px;
+      margin: 48px auto 0 auto;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      animation: fadein 900ms;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-16px);}
+      to { opacity: 1; transform: none;}
+    }
+    .logo {
+      font-size: 2.0rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #4f8cff 40%, #bee3fc 110%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1.8px;
+      user-select: none;
+      margin-right: 6px;
+    }
+    .theme-switch {
+      display: flex;
+      align-items: center;
+    }
+    .theme-switch button {
+      background: var(--switch-bg);
+      color: var(--switch-tx);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: 12px;
+      transition: background var(--anim), color var(--anim);
+      box-shadow: 0 2px 8px rgba(40,90,200,0.1);
+    }
+    .terms-card {
+      box-shadow: var(--shadow);
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px 24px 22px 24px;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      animation: fadein 0.9s cubic-bezier(.32,.54,.38,1.16);
+      animation-delay: .16s;
+      animation-fill-mode: both;
+      max-width: 460px;
+    }
+    .terms-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.8em;
+    }
+    .terms-card p {
+      font-size: 1.08rem;
+      color: #5e6787;
+      margin-bottom: 1.4em;
+    }
+    [data-theme="dark"] .terms-card p {
+      color: #b6bcef;
+    }
+    .accept-btn {
+      background: var(--dl-btn-bg);
+      color: var(--dl-btn-tx);
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      font-weight: 700;
+      padding: 0.6em 2.4em;
+      box-shadow: 0 2px 16px rgba(79, 140, 255, 0.12);
+      cursor: pointer;
+      transition: background var(--anim), color var(--anim), transform 170ms;
+      margin-top: 1.0em;
+    }
+    .accept-btn:hover {
+      background: var(--dl-btn-hover);
+      transform: translateY(-2px) scale(1.03);
+    }
+    main {
+      min-height: 320px;
+    }
+    .file-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 17px;
+      animation: fadein 0.7s;
+    }
+    .file-item {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 21px 25px 21px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      transition: 
+        background var(--anim), 
+        box-shadow var(--anim), 
+        transform 320ms cubic-bezier(.28,.74,.28,1.45);
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .file-item:hover {
+      background: var(--hover);
+      transform: scale(1.028) translateY(-1.7px);
+      box-shadow: 0 12px 40px rgba(48,106,226,0.11);
+    }
+    .file-info {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--primary-tx);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-ext {
+      font-size: 0.98em;
+      font-weight: 700;
+      color: #a3a9cc;
+      padding: 2px 10px;
+      background: #e9edfc;
+      border-radius: 5px;
+      margin-right: 11px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: background var(--anim), color var(--anim);
+    }
+    [data-theme='dark'] .file-ext {
+      background: #252a3c;
+      color: #7db2ff;
+    }
+    .file-size {
+      font-size: 0.99em;
+      color: #8595b6;
+      font-weight: 400;
+      margin-left: 15px;
+      letter-spacing: .01em;
+    }
+    [data-theme="dark"] .file-size {
+      color: #a7b2e0;
+    }
+    .dl-btn-wrap {
+      width: 0;
+      overflow: visible;
+      transition: width var(--anim);
+      z-index: 2;
+    }
+    .file-item.expanded .dl-btn-wrap {
+      width: 120px;
+      transition: width .35s;
+    }
+    .download-btn {
+      opacity: 0;
+      pointer-events: none;
+      background: var(--dl-btn-bg);
+      color: var(--dl-btn-tx);
+      border: none;
+      border-radius: 7px;
+      padding: 0.61em 1.8em 0.61em 1.35em;
+      font-size: 1.07rem;
+      font-weight: 700;
+      box-shadow: 0 2px 16px rgba(79, 140, 255, 0.17);
+      cursor: pointer;
+      transform: translateX(12px);
+      transition: opacity var(--anim), background var(--anim), transform var(--anim);
+    }
+    .file-item.expanded .download-btn {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+    .download-btn:hover {
+      background: var(--dl-btn-hover);
+      color: #fff;
+    }
+    @media (max-width: 540px) {
+      .container {
+        padding: 0 4vw;
+      }
+      .file-item {
+        padding: 13px 10px 13px 9px;
+        font-size: 1em;
+      }
+    }
+    /* Animate theme switch icon */
+    .switch-icon {
+      transition: color 180ms;
+      margin-left: 8px;
+      font-size: 1.22em;
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <div class="container">
+    <header>
+      <span class="logo">Web Store</span>
+      <div class="theme-switch">
+        <span id="current-theme-label">Light</span>
+        <button id="themeToggleBtn">
+          Theme 
+          <span class="switch-icon" id="themeIcon">🌞</span>
+        </button>
+      </div>
+    </header>
+
+    <div id="terms-modal" class="terms-card">
+      <div class="terms-title">Accept Terms</div>
+      <p>
+        You must accept the terms before downloading any files.<br>
+        <small>By clicking "Accept", you agree not to distribute, misuse, or violate copyright of any file listed here and use at your own risk.</small>
+      </p>
+      <button class="accept-btn" id="acceptBtn">Accept & Continue</button>
+    </div>
+
+    <main id="store-content" style="display:none;">
+      <h2 style="margin-top:0;margin-bottom:14px;font-size:1.53rem;">Available Downloads</h2>
+      <ul class="file-list" id="fileList">
+        <!-- File items will be loaded here -->
+      </ul>
+    </main>
+    <div id="loading-files" style="width:100%;text-align:center;display:none;color:#7b7bcb;margin-top:32px">
+      <span style="font-size:1.2em;">Fetching files...</span>
+    </div>
+    <div id="no-files" style="display:none;text-align:center;color:#999;font-size:1.2em;margin:40px 0 0 0;">
+      No files available for download.
+    </div>
+  </div>
+
+  <script>
+    // THEME SWITCHER
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      document.getElementById('current-theme-label').innerText = theme === 'dark' ? 'Dark' : 'Light';
+      document.getElementById('themeIcon').innerText = theme === 'dark' ? '🌙' : '🌞';
+    }
+    document.getElementById('themeToggleBtn').onclick = function() {
+      const cur = document.body.getAttribute('data-theme');
+      setTheme(cur === 'dark' ? 'light' : 'dark');
+    }
+    // start with saved theme preference
+    (() => {
+      let t = localStorage.getItem('theme');
+      if (t === "dark" || (t == null && window.matchMedia("(prefers-color-scheme: dark)").matches)) setTheme('dark');
+      else setTheme('light');
+    })();
+
+    // TERMS MODAL HANDLING
+    const terms = document.getElementById('terms-modal');
+    const storeContent = document.getElementById('store-content');
+    if (localStorage.getItem('accepted_terms')) {
+      terms.style.display = 'none';
+      storeContent.style.display = '';
+      document.getElementById('loading-files').style.display = '';
+    }
+    document.getElementById('acceptBtn').onclick = function() {
+      localStorage.setItem('accepted_terms', 'yes');
+      terms.style.display = 'none';
+      storeContent.style.display = '';
+      document.getElementById('loading-files').style.display = '';
+      setTimeout(loadFiles, 100);
+    }
+
+    // FILE LIST LOADING
+    function humanFileSize(bytes) {
+      if(bytes === 0) return '0 B';
+      var k = 1024;
+      var dm = 2;
+      var sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+      var i = Math.floor(Math.log(bytes)/Math.log(k));
+      return parseFloat((bytes/Math.pow(k,i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+    async function loadFiles() {
+      document.getElementById('loading-files').style.display = '';
+      document.getElementById('no-files').style.display = 'none';
+      const fileListEl = document.getElementById('fileList');
+      fileListEl.innerHTML = '';
+      try {
+        // Netlify: get files from /.netlify/functions/list-files (custom function)
+        let resp = await fetch('/.netlify/functions/list-files'); 
+        if (!resp.ok) throw new Error('Failed to get file list');
+        let files = await resp.json();
+        if (!Array.isArray(files) || files.length === 0) {
+          document.getElementById('no-files').style.display = '';
+          document.getElementById('loading-files').style.display = 'none';
+          return;
+        }
+        files.forEach(file => {
+          const li = document.createElement('li');
+          li.className = 'file-item';
+          li.tabIndex = 0;
+          li.innerHTML = `
+            <span class="file-info">
+              <span class="file-ext">${(file.name.split('.').pop()||"FILE").toUpperCase()}</span>
+              <span class="fname">${file.name}</span>
+              <span class="file-size">${file.size ? humanFileSize(file.size) : ''}</span>
+            </span>
+            <div class="dl-btn-wrap">
+              <button class="download-btn" title="Download ${file.name}" tabindex="-1">Download</button>
+            </div>
+          `;
+          // Hover/Expand
+          li.addEventListener('mouseenter', function(){
+            li.classList.add('expanded');
+          });
+          li.addEventListener('mouseleave', function(){
+            li.classList.remove('expanded');
+          });
+          li.addEventListener('focus', function(){ li.classList.add('expanded'); });
+          li.addEventListener('blur', function(){ li.classList.remove('expanded'); });
+          li.querySelector('.download-btn').onclick = function(e){
+            e.stopPropagation();
+            triggerDownload(file.name);
+          };
+          // Also allow Enter key to Download
+          li.addEventListener('keydown', function(e){
+            if (e.key === "Enter" || e.key === " ") {
+              triggerDownload(file.name);
+            }
+          });
+          fileListEl.appendChild(li);
+        });
+      } catch (ex) {
+        fileListEl.innerHTML = '';
+        document.getElementById('no-files').style.display = '';
+      } finally {
+        document.getElementById('loading-files').style.display = 'none';
+      }
+    }
+
+    // TRIGGER DOWNLOAD (with /force_file)
+    function triggerDownload(filename) {
+      if(!filename) return;
+      let url = `/force_file?name=${encodeURIComponent(filename)}`;
+      // create and trigger download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{ document.body.removeChild(a); }, 250);
+    }
+
+    // On load
+    window.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('accepted_terms')) {
+        setTimeout(loadFiles, 110);
+      }
+    });
+  </script>
+</body>
+</html>
