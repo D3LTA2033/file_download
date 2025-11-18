@@ -1,49 +1,46 @@
-// Implements triggerDownload so index.html's download triggers work
+// Implements triggerDownload for index.html download buttons
 function triggerDownload(filename) {
     if (!filename) return;
 
-    // Check if terms accepted, if not, show the modal and block download
+    // Verify terms agreement before proceeding
     if (!localStorage.getItem("termsAccepted")) {
-        // Show terms modal if hidden
         const termsModal = document.getElementById("terms-modal");
         if (termsModal) {
-            termsModal.style.display = ""; // Show the modal
+            termsModal.style.display = ""; // Ensure modal is visible
+            // Optional: consider focusing modal for accessibility
+            if (typeof termsModal.focus === "function") {
+                termsModal.focus();
+            }
         }
-        // Optionally, you may want to scroll to the modal or focus it
         return;
     }
 
-    let url = `/force_file?name=${encodeURIComponent(filename)}`;
-    // create and trigger download
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => { document.body.removeChild(a); }, 250);
+    const fileUrl = `/force_file?name=${encodeURIComponent(filename)}`;
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.href = fileUrl;
+    downloadAnchor.download = filename;
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    setTimeout(() => {
+        document.body.removeChild(downloadAnchor);
+    }, 250);
 }
 
-// ---- Accept Terms logic (run on startup) ----
-(function setupAcceptTerms(){
-    document.addEventListener("DOMContentLoaded", function() {
+// -- Terms Acceptance Logic (init on DOM ready) --
+(function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const termsModal = document.getElementById("terms-modal");
         const storeContent = document.getElementById("store-content");
         const acceptBtn = document.getElementById("acceptBtn");
 
-        // Show/hide UI based on acceptance
         function updateTermsUI() {
-            if (localStorage.getItem("termsAccepted")) {
-                if (termsModal) termsModal.style.display = "none";
-                if (storeContent) storeContent.style.display = "";
-            } else {
-                if (termsModal) termsModal.style.display = "";
-                if (storeContent) storeContent.style.display = "none";
-            }
+            const accepted = !!localStorage.getItem("termsAccepted");
+            if (termsModal) termsModal.style.display = accepted ? "none" : "";
+            if (storeContent) storeContent.style.display = accepted ? "" : "none";
         }
 
-        // Accept click handler
         if (acceptBtn) {
-            acceptBtn.addEventListener("click", function() {
+            acceptBtn.addEventListener("click", function () {
                 localStorage.setItem("termsAccepted", "yes");
                 updateTermsUI();
             });
