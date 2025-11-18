@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Web Store - Download Custom Stuff</title>
+  <title>Arch web - Download Custom Stuff</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
@@ -256,7 +256,7 @@
 <body data-theme="light">
   <div class="container">
     <header>
-      <span class="logo">Web Store</span>
+      <span class="logo">Arch web</span>
       <div class="theme-switch">
         <span id="current-theme-label">Light</span>
         <button id="themeToggleBtn">
@@ -272,7 +272,7 @@
         You must accept the terms before downloading any files.<br>
         <small>By clicking "Accept", you agree not to distribute, misuse, or violate copyright of any file listed here and use at your own risk.</small>
       </p>
-      <button class="accept-btn" id="acceptBtn">Accept & Continue</button>
+      <button class="accept-btn" id="acceptBtn" type="button">Accept & Continue</button>
     </div>
 
     <main id="store-content" style="display:none;">
@@ -288,128 +288,6 @@
       No files available for download.
     </div>
   </div>
-
-  <script>
-    // THEME SWITCHER
-    function setTheme(theme) {
-      document.body.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      document.getElementById('current-theme-label').innerText = theme === 'dark' ? 'Dark' : 'Light';
-      document.getElementById('themeIcon').innerText = theme === 'dark' ? '🌙' : '🌞';
-    }
-    document.getElementById('themeToggleBtn').onclick = function() {
-      const cur = document.body.getAttribute('data-theme');
-      setTheme(cur === 'dark' ? 'light' : 'dark');
-    }
-    // start with saved theme preference
-    (() => {
-      let t = localStorage.getItem('theme');
-      if (t === "dark" || (t == null && window.matchMedia("(prefers-color-scheme: dark)").matches)) setTheme('dark');
-      else setTheme('light');
-    })();
-
-    // TERMS MODAL HANDLING
-    const terms = document.getElementById('terms-modal');
-    const storeContent = document.getElementById('store-content');
-    if (localStorage.getItem('accepted_terms')) {
-      terms.style.display = 'none';
-      storeContent.style.display = '';
-      document.getElementById('loading-files').style.display = '';
-    }
-    document.getElementById('acceptBtn').onclick = function() {
-      localStorage.setItem('accepted_terms', 'yes');
-      terms.style.display = 'none';
-      storeContent.style.display = '';
-      document.getElementById('loading-files').style.display = '';
-      setTimeout(loadFiles, 100);
-    }
-
-    // FILE LIST LOADING
-    function humanFileSize(bytes) {
-      if(bytes === 0) return '0 B';
-      var k = 1024;
-      var dm = 2;
-      var sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-      var i = Math.floor(Math.log(bytes)/Math.log(k));
-      return parseFloat((bytes/Math.pow(k,i)).toFixed(dm)) + ' ' + sizes[i];
-    }
-    async function loadFiles() {
-      document.getElementById('loading-files').style.display = '';
-      document.getElementById('no-files').style.display = 'none';
-      const fileListEl = document.getElementById('fileList');
-      fileListEl.innerHTML = '';
-      try {
-        // Netlify: get files from /.netlify/functions/list-files (custom function)
-        let resp = await fetch('/.netlify/functions/list-files'); 
-        if (!resp.ok) throw new Error('Failed to get file list');
-        let files = await resp.json();
-        if (!Array.isArray(files) || files.length === 0) {
-          document.getElementById('no-files').style.display = '';
-          document.getElementById('loading-files').style.display = 'none';
-          return;
-        }
-        files.forEach(file => {
-          const li = document.createElement('li');
-          li.className = 'file-item';
-          li.tabIndex = 0;
-          li.innerHTML = `
-            <span class="file-info">
-              <span class="file-ext">${(file.name.split('.').pop()||"FILE").toUpperCase()}</span>
-              <span class="fname">${file.name}</span>
-              <span class="file-size">${file.size ? humanFileSize(file.size) : ''}</span>
-            </span>
-            <div class="dl-btn-wrap">
-              <button class="download-btn" title="Download ${file.name}" tabindex="-1">Download</button>
-            </div>
-          `;
-          // Hover/Expand
-          li.addEventListener('mouseenter', function(){
-            li.classList.add('expanded');
-          });
-          li.addEventListener('mouseleave', function(){
-            li.classList.remove('expanded');
-          });
-          li.addEventListener('focus', function(){ li.classList.add('expanded'); });
-          li.addEventListener('blur', function(){ li.classList.remove('expanded'); });
-          li.querySelector('.download-btn').onclick = function(e){
-            e.stopPropagation();
-            triggerDownload(file.name);
-          };
-          // Also allow Enter key to Download
-          li.addEventListener('keydown', function(e){
-            if (e.key === "Enter" || e.key === " ") {
-              triggerDownload(file.name);
-            }
-          });
-          fileListEl.appendChild(li);
-        });
-      } catch (ex) {
-        fileListEl.innerHTML = '';
-        document.getElementById('no-files').style.display = '';
-      } finally {
-        document.getElementById('loading-files').style.display = 'none';
-      }
-    }
-
-    // TRIGGER DOWNLOAD (with /force_file)
-    function triggerDownload(filename) {
-      if(!filename) return;
-      let url = `/force_file?name=${encodeURIComponent(filename)}`;
-      // create and trigger download
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{ document.body.removeChild(a); }, 250);
-    }
-
-    // On load
-    window.addEventListener('DOMContentLoaded', function() {
-      if (localStorage.getItem('accepted_terms')) {
-        setTimeout(loadFiles, 110);
-      }
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
