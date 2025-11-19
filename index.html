@@ -108,12 +108,109 @@
           }
         }
       } catch (e) {}
-      // fallback: return single hi.js only (for full static hosting)
-      return [{
-        name: 'hi.js',
-        path: 'files/hi.js',
-        size: null
-      }];
+      // fallback: provide places to add files easily or use the example below.
+      return [
+        {
+          name: 'kys.js',
+          path: 'files/hi.js',
+          size: null
+        },
+        {
+          name: 'hi.js',
+          path: 'files/hi.js',
+          size: null
+        },
+        {
+          name: 'hii.js',
+          path: 'files/hii.js',
+          size: null
+        },
+        {
+          name: 'readme.txt',
+          path: 'files/readme.txt',
+          size: null
+        },
+        {
+          name: 'testfile.bin',
+          path: 'files/testfile.bin',
+          size: null
+        },
+        {
+          name: 'notes.pdf',
+          path: 'files/notes.pdf',
+          size: null
+        },
+        {
+          name: 'archive.zip',
+          path: 'files/archive.zip',
+          size: null
+        },
+        {
+          name: 'image.png',
+          path: 'files/image.png',
+          size: null
+        },
+        {
+          name: 'report.docx',
+          path: 'files/report.docx',
+          size: null
+        },
+        {
+          name: 'presentation.pptx',
+          path: 'files/presentation.pptx',
+          size: null
+        },
+        {
+          name: 'song.mp3',
+          path: 'files/song.mp3',
+          size: null
+        },
+        {
+          name: 'video.mp4',
+          path: 'files/video.mp4',
+          size: null
+        },
+        {
+          name: 'data.csv',
+          path: 'files/data.csv',
+          size: null
+        },
+        {
+          name: 'document.doc',
+          path: 'files/document.doc',
+          size: null
+        },
+        {
+          name: 'spreadsheet.xlsx',
+          path: 'files/spreadsheet.xlsx',
+          size: null
+        },
+        {
+          name: 'manual.pdf',
+          path: 'files/manual.pdf',
+          size: null
+        },
+        {
+          name: 'source.cpp',
+          path: 'files/source.cpp',
+          size: null
+        },
+        {
+          name: 'main.py',
+          path: 'files/main.py',
+          size: null
+        },
+        {
+          name: 'config.json',
+          path: 'files/config.json',
+          size: null
+        },
+        {
+          name: 'package.tar.gz',
+          path: 'files/package.tar.gz',
+          size: null
+        },
+      ];
     }
 
     // Helper to fetch file size for files/xxx
