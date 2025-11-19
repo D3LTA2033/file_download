@@ -5,252 +5,51 @@
   <title>Arch web - Download Custom Stuff</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
-      --primary-bg: #fafafa;
-      --primary-tx: #222;
-      --secondary-bg: #fff;
-      --accent: #4f8cff;
-      --card-bg: #f0f0f0;
-      --shadow: 0 4px 24px rgba(60,60,80,0.08);
-      --border: #e0e0e0;
-      --hover: #f4f7ff;
-      --dl-btn-bg: #4f8cff;
-      --dl-btn-tx: #fff;
-      --dl-btn-hover: #2560c2;
-      --switch-bg: #4f8cff;
-      --switch-tx: #fff;
-      --anim: 350ms cubic-bezier(.5, 0, .25, 1);
-    }
+    :root { --primary-bg: #fafafa; --primary-tx: #222;
+      --secondary-bg: #fff; --accent: #4f8cff; --card-bg: #f0f0f0;
+      --shadow: 0 4px 24px rgba(60,60,80,0.08); --border: #e0e0e0;
+      --hover: #f4f7ff; --dl-btn-bg: #4f8cff; --dl-btn-tx: #fff;
+      --dl-btn-hover: #2560c2; --switch-bg: #4f8cff; --switch-tx: #fff;
+      --anim: 350ms cubic-bezier(.5, 0, .25, 1);}
     body[data-theme='dark'] {
-      --primary-bg: #191923;
-      --primary-tx: #f6f6f6;
-      --secondary-bg: #232333;
-      --card-bg: #202029;
-      --shadow: 0 4px 24px rgba(20,20,30,0.18);
-      --border: #22223c;
-      --hover: #23233b;
-      --dl-btn-bg: #2828b0;
-      --dl-btn-tx: #fff;
-      --dl-btn-hover: #4f8cff;
-      --switch-bg: #6f73d2;
-      --switch-tx: #fff;
+      --primary-bg: #191923; --primary-tx: #f6f6f6;
+      --secondary-bg: #232333; --card-bg: #202029;
+      --shadow: 0 4px 24px rgba(20,20,30,0.18); --border: #22223c;
+      --hover: #23233b; --dl-btn-bg: #2828b0; --dl-btn-tx: #fff;
+      --dl-btn-hover: #4f8cff; --switch-bg: #6f73d2; --switch-tx: #fff;
     }
-    html, body {
-      padding: 0; margin: 0;
-      min-height: 100vh;
-      background: var(--primary-bg);
-      color: var(--primary-tx);
-      font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
-      transition: background var(--anim), color var(--anim);
-    }
-    .container {
-      max-width: 640px;
-      margin: 48px auto 0 auto;
-      padding: 0 16px;
-      box-sizing: border-box;
-    }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2.5rem;
-      animation: fadein 900ms;
-    }
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-16px);}
-      to { opacity: 1; transform: none;}
-    }
-    .logo {
-      font-size: 2.0rem;
-      font-weight: 900;
-      background: linear-gradient(90deg, #4f8cff 40%, #bee3fc 110%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 1.8px;
-      user-select: none;
-      margin-right: 6px;
-    }
-    .theme-switch {
-      display: flex;
-      align-items: center;
-    }
-    .theme-switch button {
-      background: var(--switch-bg);
-      color: var(--switch-tx);
-      border: none;
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 1rem;
-      margin-left: 12px;
-      transition: background var(--anim), color var(--anim);
-      box-shadow: 0 2px 8px rgba(40,90,200,0.1);
-    }
-    .terms-card {
-      box-shadow: var(--shadow);
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 30px 24px 22px 24px;
-      margin-bottom: 2rem;
-      border: 1px solid var(--border);
-      animation: fadein 0.9s cubic-bezier(.32,.54,.38,1.16);
-      animation-delay: .16s;
-      animation-fill-mode: both;
-      max-width: 460px;
-    }
-    .terms-title {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 0.8em;
-    }
-    .terms-card p {
-      font-size: 1.08rem;
-      color: #5e6787;
-      margin-bottom: 1.4em;
-    }
-    [data-theme="dark"] .terms-card p {
-      color: #b6bcef;
-    }
-    .accept-btn {
-      background: var(--dl-btn-bg);
-      color: var(--dl-btn-tx);
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1em;
-      font-weight: 700;
-      padding: 0.6em 2.4em;
-      box-shadow: 0 2px 16px rgba(79, 140, 255, 0.12);
-      cursor: pointer;
-      transition: background var(--anim), color var(--anim), transform 170ms;
-      margin-top: 1.0em;
-    }
-    .accept-btn:hover {
-      background: var(--dl-btn-hover);
-      transform: translateY(-2px) scale(1.03);
-    }
-    main {
-      min-height: 320px;
-    }
-    .file-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      margin-top: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 17px;
-      animation: fadein 0.7s;
-    }
-    .file-item {
-      position: relative;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 21px 25px 21px 20px;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      transition: 
-        background var(--anim), 
-        box-shadow var(--anim), 
-        transform 320ms cubic-bezier(.28,.74,.28,1.45);
-      cursor: pointer;
-      overflow: hidden;
-    }
-    .file-item:hover {
-      background: var(--hover);
-      transform: scale(1.028) translateY(-1.7px);
-      box-shadow: 0 12px 40px rgba(48,106,226,0.11);
-    }
-    .file-info {
-      flex: 1 1 auto;
-      min-width: 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.12rem;
-      font-weight: 600;
-      color: var(--primary-tx);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .file-ext {
-      font-size: 0.98em;
-      font-weight: 700;
-      color: #a3a9cc;
-      padding: 2px 10px;
-      background: #e9edfc;
-      border-radius: 5px;
-      margin-right: 11px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      transition: background var(--anim), color var(--anim);
-    }
-    [data-theme='dark'] .file-ext {
-      background: #252a3c;
-      color: #7db2ff;
-    }
-    .file-size {
-      font-size: 0.99em;
-      color: #8595b6;
-      font-weight: 400;
-      margin-left: 15px;
-      letter-spacing: .01em;
-    }
-    [data-theme="dark"] .file-size {
-      color: #a7b2e0;
-    }
-    .dl-btn-wrap {
-      width: 0;
-      overflow: visible;
-      transition: width var(--anim);
-      z-index: 2;
-    }
-    .file-item.expanded .dl-btn-wrap {
-      width: 120px;
-      transition: width .35s;
-    }
-    .download-btn {
-      opacity: 0;
-      pointer-events: none;
-      background: var(--dl-btn-bg);
-      color: var(--dl-btn-tx);
-      border: none;
-      border-radius: 7px;
-      padding: 0.61em 1.8em 0.61em 1.35em;
-      font-size: 1.07rem;
-      font-weight: 700;
-      box-shadow: 0 2px 16px rgba(79, 140, 255, 0.17);
-      cursor: pointer;
-      transform: translateX(12px);
-      transition: opacity var(--anim), background var(--anim), transform var(--anim);
-    }
-    .file-item.expanded .download-btn {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(0);
-    }
-    .download-btn:hover {
-      background: var(--dl-btn-hover);
-      color: #fff;
-    }
+    html, body {padding:0; margin:0; min-height:100vh; background:var(--primary-bg); color:var(--primary-tx); font-family:'Segoe UI','Roboto',Helvetica,Arial,sans-serif; transition:background var(--anim),color var(--anim);}
+    .container { max-width: 640px; margin: 48px auto 0 auto; padding: 0 16px; box-sizing: border-box;}
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; animation: fadein 900ms;}
+    @keyframes fadein { from{opacity:0;transform:translateY(-16px);} to{opacity:1;transform:none;} }
+    .logo { font-size:2.0rem;font-weight:900;background:linear-gradient(90deg,#4f8cff 40%,#bee3fc 110%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1.8px;user-select:none;margin-right:6px;}
+    .theme-switch { display: flex; align-items: center;}
+    .theme-switch button { background:var(--switch-bg); color:var(--switch-tx); border:none; border-radius:20px; padding:6px 16px; font-weight:700; cursor:pointer; font-size:1rem; margin-left:12px; transition:background var(--anim),color var(--anim); box-shadow:0 2px 8px rgba(40,90,200,0.1);}
+    .terms-card { box-shadow:var(--shadow); background:var(--card-bg); border-radius:12px; padding:30px 24px 22px 24px; margin-bottom:2rem; border:1px solid var(--border); animation:fadein 0.9s cubic-bezier(.32,.54,.38,1.16); animation-delay:.16s; animation-fill-mode:both; max-width:460px;}
+    .terms-title { font-size:1.3rem; font-weight:bold; margin-bottom:0.8em;}
+    .terms-card p { font-size:1.08rem; color:#5e6787; margin-bottom:1.4em;}
+    [data-theme="dark"] .terms-card p { color: #b6bcef; }
+    .accept-btn { background:var(--dl-btn-bg); color:var(--dl-btn-tx); border:none; border-radius:8px; font-size:1.1em; font-weight:700; padding:0.6em 2.4em; box-shadow:0 2px 16px rgba(79,140,255,0.12); cursor:pointer; transition:background var(--anim),color var(--anim),transform 170ms; margin-top:1.0em;}
+    .accept-btn:hover { background:var(--dl-btn-hover); transform:translateY(-2px) scale(1.03);}
+    main { min-height:320px;}
+    .file-list { list-style:none; margin:0; padding:0; margin-top:32px; display:flex; flex-direction:column; gap:17px; animation:fadein 0.7s;}
+    .file-item { position:relative; background:var(--card-bg); border:1px solid var(--border); border-radius:11px; padding:21px 25px 21px 20px; box-shadow:var(--shadow); display:flex; align-items:center; transition:background var(--anim), box-shadow var(--anim), transform 320ms cubic-bezier(.28,.74,.28,1.45); cursor:pointer; overflow:hidden;}
+    .file-item:hover { background:var(--hover); transform:scale(1.028) translateY(-1.7px); box-shadow:0 12px 40px rgba(48,106,226,0.11);}
+    .file-info { flex:1 1 auto; min-width:0; display:flex; align-items:center; gap:12px; font-size:1.12rem; font-weight:600; color:var(--primary-tx); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .file-ext { font-size:0.98em; font-weight:700; color:#a3a9cc; padding:2px 10px; background:#e9edfc; border-radius:5px; margin-right:11px; letter-spacing:0.8px; text-transform:uppercase; transition:background var(--anim),color var(--anim);}
+    [data-theme='dark'] .file-ext { background:#252a3c; color:#7db2ff;}
+    .file-size { font-size:0.99em; color:#8595b6; font-weight:400; margin-left:15px; letter-spacing:.01em;}
+    [data-theme="dark"] .file-size { color:#a7b2e0;}
+    .dl-btn-wrap { width:0; overflow:visible; transition:width var(--anim); z-index:2;}
+    .file-item.expanded .dl-btn-wrap { width:120px; transition:width .35s;}
+    .download-btn { opacity:0; pointer-events:none; background:var(--dl-btn-bg); color:var(--dl-btn-tx); border:none; border-radius:7px; padding:0.61em 1.8em 0.61em 1.35em; font-size:1.07rem; font-weight:700; box-shadow:0 2px 16px rgba(79,140,255,0.17); cursor:pointer; transform:translateX(12px); transition:opacity var(--anim),background var(--anim),transform var(--anim);}
+    .file-item.expanded .download-btn { opacity:1; pointer-events:auto; transform:translateX(0);}
+    .download-btn:hover { background:var(--dl-btn-hover); color:#fff;}
     @media (max-width: 540px) {
-      .container {
-        padding: 0 4vw;
-      }
-      .file-item {
-        padding: 13px 10px 13px 9px;
-        font-size: 1em;
-      }
+      .container { padding:0 4vw;}
+      .file-item { padding:13px 10px 13px 9px; font-size:1em;}
     }
-    /* Animate theme switch icon */
-    .switch-icon {
-      transition: color 180ms;
-      margin-left: 8px;
-      font-size: 1.22em;
-    }
+    .switch-icon { transition: color 180ms; margin-left:8px; font-size:1.22em;}
   </style>
 </head>
 <body data-theme="light">
@@ -288,19 +87,71 @@
       No files available for download.
     </div>
   </div>
-  <script src="files.js"></script>
   <script src="script.js"></script>
   <script>
-    // Dynamically render files and fix download behavior
-    document.addEventListener("DOMContentLoaded", () => {
+    // Try to automatically list all files in the files/ directory
+    // Uses files/index.json: a JSON array of {name, path} objects auto-generated by server
+    // If not available, fallback: try fetching by guessing by file extension (not reliable!)
+
+    async function fetchFilesList() {
+      // Try to load files/index.json first
+      try {
+        const res = await fetch('files/index.json');
+        if (res.ok) {
+          const arr = await res.json();
+          if (Array.isArray(arr)) {
+            // auto-populate size=null; actual size determined later
+            return arr.map(obj => {
+              if (!obj.name && obj.path) obj.name = obj.path.split('/').pop();
+              return { name: obj.name, path: obj.path, size: null };
+            });
+          }
+        }
+      } catch (e) {}
+      // fallback: return single hi.js only (for full static hosting)
+      return [{
+        name: 'hi.js',
+        path: 'files/hi.js',
+        size: null
+      }];
+    }
+
+    // Helper to fetch file size for files/xxx
+    async function fetchFileSize(filename) {
+      try {
+        const res = await fetch(filename, { method: "HEAD" });
+        if (res.ok && res.headers.has("content-length")) {
+          return parseInt(res.headers.get("content-length"), 10);
+        }
+      } catch (e) {}
+      try {
+        const res = await fetch(filename);
+        if (res.ok) {
+          const buf = await res.arrayBuffer();
+          return buf.byteLength;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
       // terms/accept stuff is in script.js
       const fileListElem = document.getElementById("fileList");
       const loadingElem = document.getElementById("loading-files");
       const noFilesElem = document.getElementById("no-files");
 
-      // files global comes from files.js (should be: [{name, size,...}, ... ])
+      window.triggerDownload = function(filename, realpath) {
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = realpath;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => a.remove(), 300);
+      };
+
       function humanFileSize(bytes) {
-        if (bytes === undefined || bytes === null || isNaN(bytes)) return "";
+        if (!bytes || isNaN(bytes)) return "";
         const thresh = 1024;
         if (Math.abs(bytes) < thresh) return bytes + ' B';
         const units = ['KB','MB','GB','TB','PB','EB','ZB','YB'];
@@ -318,19 +169,25 @@
         return dot > -1 ? fn.slice(dot+1) : '';
       }
 
-      function renderFiles() {
+      async function renderFiles() {
         fileListElem.innerHTML = "";
-        if (!window.files || !Array.isArray(files) || files.length === 0) {
+        if (!window.files || !Array.isArray(window.files) || window.files.length === 0) {
           if(noFilesElem) noFilesElem.style.display = "";
           return;
         }
-        for (const file of files) {
-          // sanity
-          if (!file || typeof file !== "object" || !file.name) continue;
+
+        // For all detected files
+        for (const file of window.files) {
+          if (!file || typeof file !== "object" || !file.name || !file.path) continue;
+
+          // Fetch file size if not set
+          if (file.size === null || file.size === undefined) {
+            file.size = await fetchFileSize(file.path);
+          }
+
           const li = document.createElement("li");
           li.className = "file-item";
 
-          // Info layout
           const infoDiv = document.createElement("div");
           infoDiv.className = "file-info";
 
@@ -345,7 +202,7 @@
           infoDiv.appendChild(extSpan);
           infoDiv.appendChild(nameSpan);
 
-          if (file.size !== undefined) {
+          if (file.size !== undefined && file.size !== null) {
             const sizeSpan = document.createElement("span");
             sizeSpan.className = "file-size";
             sizeSpan.textContent = humanFileSize(file.size);
@@ -363,14 +220,13 @@
           dlBtn.textContent = "Download";
           dlBtn.onclick = function(e) {
             e.stopPropagation();
-            triggerDownload(file.name);
+            triggerDownload(file.name, file.path);
           };
           dlWrap.appendChild(dlBtn);
           li.appendChild(dlWrap);
 
           // expand/collapse for download
           li.addEventListener("click", function() {
-            // Remove expanded from all siblings
             document.querySelectorAll(".file-item.expanded").forEach(el => {
               if (el !== li) el.classList.remove("expanded");
             });
@@ -379,17 +235,16 @@
 
           fileListElem.appendChild(li);
         }
+
         if(noFilesElem) noFilesElem.style.display = "none";
       }
 
-      function fetchAndRenderFiles() {
+      async function fetchAndRenderFiles() {
         if (loadingElem) loadingElem.style.display = "block";
-        setTimeout(() => {
-          if (typeof files !== "undefined") {
-            renderFiles();
-          }
-          if (loadingElem) loadingElem.style.display = "none";
-        }, 70);
+        //---- fetch files now ----
+        window.files = await fetchFilesList();
+        await renderFiles();
+        if (loadingElem) loadingElem.style.display = "none";
       }
 
       fetchAndRenderFiles();
