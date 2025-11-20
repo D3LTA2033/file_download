@@ -1,9 +1,11 @@
-// DISCLAIMER: Selfbots are against Discord's Terms of Service. This code is for educational purposes only. Do NOT use on real Discord accounts.
+// DISCLAIMER: Selfbots are against Discord's Terms of Service. This code is for educational purposes only. Do NOT use on real Discord accounts. akak Mains.
+// 0b.livion
+// https://webarchstore.netlify.app/
 
 const { Client } = require('discord.js-selfbot-v13');
 const readline = require('readline');
 
-const TOKEN = 'MTQxOTQxNzU1MDk1Mjg2MTc1Nw.GfJI8S.SLGVafuw4iE8QAzRZOe6-jhqX_35hJba2j516Y';
+const TOKEN = 'UR_TOKEN_HERE';
 
 // Create the Discord client
 const client = new Client({
@@ -252,4 +254,3 @@ client.on('error', err => {
 client.login(TOKEN).catch(err => {
     console.error("Login failed:", err.message || err);
 });
-
